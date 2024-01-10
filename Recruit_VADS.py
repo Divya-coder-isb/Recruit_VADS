@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
+# In[8]:
 
 
 import streamlit as st
@@ -11,20 +11,23 @@ import os
 
 # Function to load model and vectorizer with error handling
 def load_model_and_vectorizer(model_filename, vectorizer_filename):
-    # Convert paths to absolute paths
-    model_filename = os.path.abspath(model_filename)
-    vectorizer_filename = os.path.abspath(vectorizer_filename)
+    # Get the current working directory
+    current_working_directory = os.getcwd()
+    
+    # Combine paths with the current working directory
+    model_path = os.path.join(current_working_directory, model_filename)
+    vectorizer_path = os.path.join(current_working_directory, vectorizer_filename)
 
-    if os.path.exists(model_filename) and os.path.exists(vectorizer_filename):
+    if os.path.exists(model_path) and os.path.exists(vectorizer_path):
         try:
-            loaded_model = pickle.load(open(model_filename, 'rb'))
-            loaded_vectorizer = pickle.load(open(vectorizer_filename, 'rb'))
+            loaded_model = pickle.load(open(model_path, 'rb'))
+            loaded_vectorizer = pickle.load(open(vectorizer_path, 'rb'))
             return loaded_model, loaded_vectorizer
         except Exception as e:
             st.error(f"Error loading model or vectorizer: {e}")
             return None, None
     else:
-        st.error(f"Model or vectorizer file not found. Model: {model_filename}, Vectorizer: {vectorizer_filename}")
+        st.error(f"Model or vectorizer file not found. Model: {model_path}, Vectorizer: {vectorizer_path}")
         return None, None
 
 # Load the model and vectorizer
@@ -38,6 +41,7 @@ if loaded_model is not None and loaded_vectorizer is not None:
     # Load resume data for displaying Candidate Name and Email ID
     resume_data_path = r"D:\1 ISB\Term 2\FP\FP project\Modifiedresumedata_data.csv"
     resume_data = pd.read_csv(resume_data_path)
+
     # Streamlit UI
     st.title('Recruit VADS - Candidate Relevancy Predictor')
 
