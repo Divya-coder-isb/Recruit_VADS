@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[8]:
+# In[9]:
 
 
 import streamlit as st
@@ -14,7 +14,7 @@ def load_model_and_vectorizer(model_filename, vectorizer_filename):
     # Get the current working directory
     current_working_directory = os.getcwd()
     
-    # Combine paths with the current working directory
+    # Update paths based on your actual file locations
     model_path = os.path.join(current_working_directory, model_filename)
     vectorizer_path = os.path.join(current_working_directory, vectorizer_filename)
 
