@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[5]:
 
 
 import streamlit as st
@@ -11,6 +11,10 @@ import os
 
 # Function to load model and vectorizer with error handling
 def load_model_and_vectorizer(model_filename, vectorizer_filename):
+    # Convert paths to absolute paths
+    model_filename = os.path.abspath(model_filename)
+    vectorizer_filename = os.path.abspath(vectorizer_filename)
+
     if os.path.exists(model_filename) and os.path.exists(vectorizer_filename):
         try:
             loaded_model = pickle.load(open(model_filename, 'rb'))
@@ -20,7 +24,7 @@ def load_model_and_vectorizer(model_filename, vectorizer_filename):
             st.error(f"Error loading model or vectorizer: {e}")
             return None, None
     else:
-        st.error("Model or vectorizer file not found.")
+        st.error(f"Model or vectorizer file not found. Model: {model_filename}, Vectorizer: {vectorizer_filename}")
         return None, None
 
 # Load the model and vectorizer
@@ -34,7 +38,6 @@ if loaded_model is not None and loaded_vectorizer is not None:
     # Load resume data for displaying Candidate Name and Email ID
     resume_data_path = r"D:\1 ISB\Term 2\FP\FP project\Modifiedresumedata_data.csv"
     resume_data = pd.read_csv(resume_data_path)
-
     # Streamlit UI
     st.title('Recruit VADS - Candidate Relevancy Predictor')
 
