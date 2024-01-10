@@ -1,38 +1,26 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[9]:
+# In[10]:
 
 
 import streamlit as st
 import pandas as pd
 import pickle
-import os
 
 # Function to load model and vectorizer with error handling
 def load_model_and_vectorizer(model_filename, vectorizer_filename):
-    # Get the current working directory
-    current_working_directory = os.getcwd()
-    
-    # Update paths based on your actual file locations
-    model_path = os.path.join(current_working_directory, model_filename)
-    vectorizer_path = os.path.join(current_working_directory, vectorizer_filename)
-
-    if os.path.exists(model_path) and os.path.exists(vectorizer_path):
-        try:
-            loaded_model = pickle.load(open(model_path, 'rb'))
-            loaded_vectorizer = pickle.load(open(vectorizer_path, 'rb'))
-            return loaded_model, loaded_vectorizer
-        except Exception as e:
-            st.error(f"Error loading model or vectorizer: {e}")
-            return None, None
-    else:
-        st.error(f"Model or vectorizer file not found. Model: {model_path}, Vectorizer: {vectorizer_path}")
+    try:
+        loaded_model = pickle.load(open(model_filename, 'rb'))
+        loaded_vectorizer = pickle.load(open(vectorizer_filename, 'rb'))
+        return loaded_model, loaded_vectorizer
+    except Exception as e:
+        st.error(f"Error loading model or vectorizer: {e}")
         return None, None
 
 # Load the model and vectorizer
-model_filename = 'Recruit_VADS_model.pkl'
-vectorizer_filename = 'Tfidf_Vectorizer.pkl'
+model_filename = '/mount/src/recruit_vads/Recruit_VADS_model.pkl'
+vectorizer_filename = '/mount/src/recruit_vads/Tfidf_Vectorizer.pkl'
 
 loaded_model, loaded_vectorizer = load_model_and_vectorizer(model_filename, vectorizer_filename)
 
